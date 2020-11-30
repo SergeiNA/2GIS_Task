@@ -117,27 +117,30 @@ mode:\n\
 требуется для ключа -v [слово для подсчёта]\n\
  - checksum - подсчёт контрольной суммы")
         ("view,v", bopt::value<std::string>(), 
-        "Слово, количество вхождения в файл которого нужно определить");
+        "Слово, количество повторений которого в файле нужно подсчитать");
 
     bopt::command_line_parser parser{argc, argv};
     parser.options(desc).allow_unregistered();
-    bopt::parsed_options parsed_options = parser.run();
 
-    bopt::variables_map vm;
-    store(parsed_options, vm);
-    notify(vm);
-
-    if (vm.count("help")){
-        std::cout << desc << '\n';
-        return std::nullopt;
-    }
-    
     try {
+    	bopt::parsed_options parsed_options = parser.run();
+    	bopt::variables_map vm;
+
+    	store(parsed_options, vm);
+    	notify(vm);
+
+    	if (vm.count("help")){
+        	std::cout << desc << '\n';
+        	return std::nullopt;
+    	}
+    
         required_options        (vm, {"file", "mode"});
         option_validate_values  (vm, "mode", {detail::M_CHEKSUM, detail::M_WORDS});
         conflicting_options     (vm, "mode", detail::M_CHEKSUM, "view");
         option_dependency       (vm, "view", "mode");
         opt_and_val_dependency  (vm, "mode", detail::M_WORDS, "view");
+
+    	return createOption(vm);
     }
     catch(const std::exception& e) {
                 std::cerr << "Error while command param parsing: " << e.what() << '\n';
@@ -145,5 +148,4 @@ mode:\n\
         return std::nullopt;
     }
 
-    return createOption(vm);
 }

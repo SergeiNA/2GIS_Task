@@ -17,7 +17,7 @@ TEST(FOO, TEST_BAR){
 // }
 
 int main(int argc, char **argv) {
-  test_foo();
+
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

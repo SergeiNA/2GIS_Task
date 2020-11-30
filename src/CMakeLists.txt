@@ -19,7 +19,9 @@ set (EXE_NAME   hash_count)
 
 set (SRC_FILES 
 				common.cpp
-				AppOptions.cpp
+                AppOptions.cpp
+                ProcessManager.cpp
+                ProcessWCount.cpp
 				main.cpp
 				)
 

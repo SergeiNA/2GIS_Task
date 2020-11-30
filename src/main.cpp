@@ -1,6 +1,7 @@
 #include <iostream>
 #include "include/common.h"
 #include "include/AppOptions.h"
+#include "include/ProcessManager.h"
 
 int main(int argc, const char *argv[]) {
     auto options = getProgrammOptions(argc, argv);
@@ -12,6 +13,16 @@ int main(int argc, const char *argv[]) {
               << "\nMode: "          << options.value().mode
               << "\nWord to count: " << options.value().word << "\n";
 
-    test_foo();
+    ProcessManager procManager(options.value());
+    if(!procManager.start()){
+        std::cerr << "Error while starting\n";
+        return -1;
+    }
+
+    if(procManager.print()){
+        std::cerr << "Error while printing\n";
+        return -1;
+    }
+    
     return 0;
 }
