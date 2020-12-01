@@ -22,6 +22,7 @@ set (SRC_FILES
                 AppOptions.cpp
                 ProcessManager.cpp
                 ProcessWCount.cpp
+                ProcessCRC.cpp
 				main.cpp
 				)
 

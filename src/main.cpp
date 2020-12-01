@@ -4,24 +4,20 @@
 #include "include/ProcessManager.h"
 
 int main(int argc, const char *argv[]) {
-    auto options = getProgrammOptions(argc, argv);
-    if(!options.has_value()){
-        return 0;
-    }
-    std::cout << "Get Configs----------------------------\n";
-    std::cout << "File: "            << options.value().file 
-              << "\nMode: "          << options.value().mode
-              << "\nWord to count: " << options.value().word << "\n";
+    try
+    {
+        auto options = getProgrammOptions(argc, argv);
+        if(!options.has_value()){
+            throw std::invalid_argument("Invalid argument: options are empty");
+        }
 
-    ProcessManager procManager(options.value());
-    if(!procManager.start()){
-        std::cerr << "Error while starting\n";
-        return -1;
+        ProcessManager procManager(options.value());
+        procManager.start();
+        procManager.print();
     }
-
-    if(procManager.print()){
-        std::cerr << "Error while printing\n";
-        return -1;
+    catch(const std::exception& e)
+    {
+        std::cerr << "[Main error]: "<< e.what() << '\n';
     }
     
     return 0;

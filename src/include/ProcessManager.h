@@ -1,3 +1,14 @@
+/**
+ * @file ProcessManager.h
+ * @author Сергей Никитин (.)
+ * @brief Содержит объявление класса для работы с различными процессами
+ * @version 1.0
+ * @date 2020-12-01
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
+
 #ifndef __PROCESSMANAGER_H__
 #define __PROCESSMANAGER_H__
 
@@ -11,15 +22,12 @@ class ProcessManager
 public:
     ProcessManager(const Options& opt);
     ~ProcessManager();
-    [[nodiscard]]	bool start();
-    [[nodiscard]]	bool print() const;
+    void start();
+    void print(std::ostream& os = std::cout) const;
 private:
     pIProcess m_process;
     Options   m_options;
     bool      m_isRun{false};
 };
-
-
-
 
 #endif // __PROCESSMANAGER_H__

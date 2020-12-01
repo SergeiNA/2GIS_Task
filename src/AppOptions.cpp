@@ -2,13 +2,22 @@
 #include "include/constans.h"
 #include <iostream>
 #include <set>
+#include <unordered_map>
 
 namespace bopt = boost::program_options;
 using optList      =  std::vector<std::string>;
 using optValueList =  std::set<std::string>;
 
-// Часть примеров взята здесь https://www.boost.org/doc/libs/1_55_0/libs/program_options/example/real.cpp
+/**
+ * @brief Используется для преобразования строкового 
+ * представления режима работы в тип перечислений 
+ */
+inline const static  std::unordered_map<std::string, MODE> str2mode{
+    {detail::M_CHEKSUM, MODE::HASH},
+    {detail::M_WORDS, 	MODE::WORD}
+};
 
+// Часть примеров взята здесь https://www.boost.org/doc/libs/1_55_0/libs/program_options/example/real.cpp
 
 void conflicting_options(const bopt::variables_map& vm, 
                          const std::string& opt1,
@@ -95,8 +104,16 @@ Options createOption(const bopt::variables_map& vm){
         options.file = vm["file"].as<std::string>();
     }
     if (vm.count("mode")){
-        std::cout << "Mode: " << vm["mode"].as<std::string>() << std::endl;
-        options.mode = vm["mode"].as<std::string>();
+		auto value = vm["mode"].as<std::string>();
+        std::cout << "Mode: " << value << std::endl;
+		auto it = str2mode.find(value);
+        if(it == end(str2mode))
+        	throw std::logic_error(
+                std::string("Error 'file' option value '")
+                + value 
+                + "'."
+            );
+		options.mode = str2mode.at(value);
     }
     if (vm.count("view")){
 		std::cout << "Word to count: " << vm["view"].as<std::string>() << std::endl;
@@ -143,7 +160,7 @@ mode:\n\
     	return createOption(vm);
     }
     catch(const std::exception& e) {
-                std::cerr << "Error while command param parsing: " << e.what() << '\n';
+                std::cerr << "[Command line argument parsing]: " << e.what() << '\n';
         std::cout << desc << '\n';
         return std::nullopt;
     }
