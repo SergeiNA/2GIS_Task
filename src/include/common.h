@@ -19,8 +19,8 @@
  * 
  */
 enum class MODE: uint16_t{
-    HASH, ///< Подсчёт хеш суммы
-    WORD  ///< Подсчёт повторений заданного слова
+	HASH, ///< Подсчёт хеш суммы
+	WORD  ///< Подсчёт повторений заданного слова
 };
 
 /**
@@ -28,9 +28,14 @@ enum class MODE: uint16_t{
  * 
  */
 struct Options{
-    std::string file; ///< Название файла
-    MODE mode;        ///< Режим работы
-    std::string word; ///< Слово для подсчёта
+	std::string file        {""};			///< Название файла
+	std::uintmax_t file_size {0};			///< Размер файла
+	MODE mode               {MODE::HASH};	///< Режим работы
+	std::string word        {""};			///< Слово для подсчёта
 };
+
+inline bool is_FileEmpty(std::uintmax_t fsize){
+	return fsize == 0;
+}
 
 #endif // __COMMON_H__

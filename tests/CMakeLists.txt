@@ -90,6 +90,7 @@ foreach(i RANGE ${len_TESTS})
     target_link_libraries(
         ${element}
         Threads::Threads
+        stdc++fs
         ${GTEST_LIBRARIES}
     )   
 endforeach(i)

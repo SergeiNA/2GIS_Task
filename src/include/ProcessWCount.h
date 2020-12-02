@@ -17,7 +17,8 @@
 class ProcessWCount:public IProcess {
 public:
     ProcessWCount(const std::string& file, 
-                  const std::string& word);
+                  const std::string& word,
+                  std::uintmax_t file_size);
     ~ProcessWCount();
 
 	void init()								 override;
@@ -27,6 +28,7 @@ public:
 private:
     std::string 	m_fileName;
     std::string 	m_word;
+    std::uintmax_t  m_file_size;
     std::ifstream 	m_file;
     uint64_t 		m_count{0};
 };

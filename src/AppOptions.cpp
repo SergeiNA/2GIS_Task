@@ -4,7 +4,20 @@
 #include <set>
 #include <unordered_map>
 
+#if __GNUC__ < 9
+#include <experimental/filesystem>
+#else
+#include <filesystem>
+#endif
+
+#if __GNUC__ < 9
+namespace fs = std::experimental::filesystem;
+#else
+namespace fs = std::filesystem;
+#endif
+
 namespace bopt = boost::program_options;
+
 using optList      =  std::vector<std::string>;
 using optValueList =  std::set<std::string>;
 
@@ -16,6 +29,7 @@ inline const static  std::unordered_map<std::string, MODE> str2mode{
     {detail::M_CHEKSUM, MODE::HASH},
     {detail::M_WORDS, 	MODE::WORD}
 };
+
 
 // Часть примеров взята здесь https://www.boost.org/doc/libs/1_55_0/libs/program_options/example/real.cpp
 
@@ -100,8 +114,17 @@ void required_options(const bopt::variables_map& vm,
 Options createOption(const bopt::variables_map& vm){
     Options options;
     if (vm.count("file")){
-        std::cout << "File: " << vm["file"].as<std::string>() << std::endl;
-        options.file = vm["file"].as<std::string>();
+        auto fname = vm["file"].as<std::string>();
+        if(!fs::exists(fname))
+            throw std::logic_error(
+                std::string("Error 'file' option value '")
+                + fname 
+                + "' not found."
+            );
+        options.file = fname;
+        options.file_size = fs::file_size(fname);
+        std::cout << "File: " << fname << std::endl;
+        std::cout << "File size: " << options.file_size << " bytes" << std::endl;
     }
     if (vm.count("mode")){
 		auto value = vm["mode"].as<std::string>();
@@ -109,7 +132,7 @@ Options createOption(const bopt::variables_map& vm){
 		auto it = str2mode.find(value);
         if(it == end(str2mode))
         	throw std::logic_error(
-                std::string("Error 'file' option value '")
+                std::string("Error 'mode' option value '")
                 + value 
                 + "'."
             );

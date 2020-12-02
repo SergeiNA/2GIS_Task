@@ -66,6 +66,7 @@ set_target_properties(${EXE_NAME} PROPERTIES
 target_link_libraries(${EXE_NAME}
 	${Boost_LIBRARIES}
     Threads::Threads
+    stdc++fs
 )
 
 

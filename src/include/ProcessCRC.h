@@ -17,7 +17,8 @@
 
 class ProcessCRC: public IProcess {
 public:
-    ProcessCRC(const std::string& file);
+    ProcessCRC(const std::string&   file,
+                     std::uintmax_t file_size);
     ~ProcessCRC();
 
 	void init()									override;
@@ -25,10 +26,11 @@ public:
     void print(std::ostream& os = std::cout)	const override;
     std::string getResult() 					const override;
 private:
-    bool		  m_isRun {false};
-    std::string   m_fileName;
-	std::ifstream m_file;
-	uint32_t      m_CRC;
+    bool		   m_isRun {false};
+    std::string    m_fileName;
+    std::uintmax_t m_file_size;
+	std::ifstream  m_file;
+	uint32_t       m_CRC   {0};
 };
 
 #endif // __PROCESSCRC_H__

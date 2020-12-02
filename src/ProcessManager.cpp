@@ -6,10 +6,10 @@ ProcessManager::ProcessManager(const Options& opt) {
 	switch (opt.mode)
 	{
 	case MODE::WORD :
-		m_process = std::make_unique<ProcessWCount>(opt.file, opt.word);
+		m_process = std::make_unique<ProcessWCount>(opt.file, opt.word, opt.file_size);
 		break;
 	case MODE::HASH :
-		m_process = std::make_unique<ProcessCRC>(opt.file);
+		m_process = std::make_unique<ProcessCRC>(opt.file, opt.file_size);
 		break;
 	default:
 		throw std::invalid_argument("Unknown MODE");

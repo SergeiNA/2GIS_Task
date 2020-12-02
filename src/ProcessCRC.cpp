@@ -1,6 +1,10 @@
 #include "include/ProcessCRC.h"
 
-ProcessCRC::ProcessCRC(const std::string& file) : m_fileName{file} {}
+ProcessCRC::ProcessCRC(const std::string& file,
+				             std::uintmax_t file_size)
+							 : m_fileName {file},
+							   m_file_size{file_size}
+							  {}
 
 ProcessCRC::~ProcessCRC() {
   if (m_file.is_open()) m_file.close();
@@ -8,6 +12,8 @@ ProcessCRC::~ProcessCRC() {
 
 void ProcessCRC::init() 
 {
+	if(is_FileEmpty(m_file_size))
+		return;
 	m_file.open(m_fileName, std::ios::in | std::ios::binary);
 	if (!m_file.is_open())
 		throw std::runtime_error(
@@ -18,7 +24,8 @@ void ProcessCRC::init()
 }
 
 void ProcessCRC::run() {
-
+	if(is_FileEmpty(m_file_size))
+		return;
 	if (!m_file.is_open())
 		throw std::runtime_error(
 			std::string("The file: '")
