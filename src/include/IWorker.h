@@ -1,5 +1,5 @@
 /**
- * @file IProcess.h
+ * @file IWorker.h
  * @author Сергей Никитин (.)
  * @brief Содеожит интрефейс класса "Process" через который 
  * будет реализован основной функционал программы
@@ -17,9 +17,9 @@
 
 #include <iostream>
 
-class IProcess{
+class IWorker {
     public:
-        virtual ~IProcess() 									= default;
+        virtual ~IWorker() 									    = default;
 		virtual void init()										= 0;
         virtual void run()										= 0;
         virtual void print(std::ostream& os = std::cout) const	= 0;

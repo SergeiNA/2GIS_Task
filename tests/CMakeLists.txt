@@ -6,22 +6,17 @@ find_package(Threads REQUIRED)
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-# Использование thread sanitizer
-get_property(USE_TSAN GLOBAL PROPERTY USE_TSAN)
 # Использование adress sanitizer
 get_property(USE_ASAN GLOBAL PROPERTY USE_ASAN)
 # Использование Gtest
 get_property(USE_TEST GLOBAL PROPERTY USE_TEST)
 
-
-# include_directories(${PROJECT_SOURCE_DIR}/src/include)
-
 set(TEST_SRC 
-                test_foo.cpp
+                test_CRCWorker.cpp
                             )
 
 set (TESTS    
-                test_foo
+                test_CRCWorker
                             )
 
 
@@ -36,27 +31,22 @@ foreach(i RANGE ${len_TESTS})
     add_executable(
         ${test_name}
         ${test_file}
-        ${PROJECT_SOURCE_DIR}/src/common.cpp
+        ${PROJECT_SOURCE_DIR}/src/
     )
     target_include_directories(
         ${test_name}
         PUBLIC
         ${PROJECT_SOURCE_DIR}/src/include
+        
     )
 
 endforeach(i)
-
 
 set(CMP_OPTIONS "-pthread;-Wpedantic;-Wall;-Wextra")
 set(L_FLAGS "")
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     list(APPEND CMP_OPTIONS "-g")
-    if(USE_TSAN)
-        message("[TESTS] LTASN IN USE")
-        list(APPEND CMP_OPTIONS "-fsanitize=thread")
-        list(APPEND L_FLAGS "-fsanitize=thread")
-    endif()
     if(USE_ASAN)
         message("[TESTS] LASAN IN USE")
         set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
@@ -64,7 +54,7 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
         list(APPEND CMP_OPTIONS "-fsanitize=address")
         list(APPEND CMP_OPTIONS "-fsanitize=leak")
     endif()
-    message("debug")
+    message("DEBUG")
 endif()
 
 set_target_properties( ${TESTS} 
@@ -73,9 +63,6 @@ set_target_properties( ${TESTS}
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "${CMP_OPTIONS}"
     LINK_FLAGS "${L_FLAGS}"
-
-    # LINK_FLAGS "-fsanitize=address"
-    # LINK_FLAGS "-fsanitize=leak"
 )
 
 

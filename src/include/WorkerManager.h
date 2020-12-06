@@ -1,5 +1,5 @@
 /**
- * @file ProcessManager.h
+ * @file WorkerManager.h
  * @author Сергей Никитин (.)
  * @brief Содержит объявление класса для работы с различными процессами
  * @version 1.0
@@ -12,20 +12,19 @@
 #ifndef __PROCESSMANAGER_H__
 #define __PROCESSMANAGER_H__
 
-#include "IProcess.h"
+#include "IWorker.h"
 
 #include <memory>
 
-class ProcessManager
-{
-    using pIProcess  = std::unique_ptr<IProcess>;
+class WorkerManager {
+    using pIWorker  = std::unique_ptr<IWorker>;
 public:
-    ProcessManager(const Options& opt);
-    ~ProcessManager();
+    WorkerManager(const Options& opt);
+    ~WorkerManager();
     void start();
     void print(std::ostream& os = std::cout) const;
 private:
-    pIProcess m_process;
+    pIWorker  m_process;
     Options   m_options;
     bool      m_isRun{false};
 };

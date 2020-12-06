@@ -25,7 +25,7 @@ using optValueList =  std::set<std::string>;
  * @brief Используется для преобразования строкового 
  * представления режима работы в тип перечислений 
  */
-inline const static  std::unordered_map<std::string, MODE> str2mode{
+inline const static  std::unordered_map<std::string, MODE> str2mode {
     {detail::M_CHEKSUM, MODE::HASH},
     {detail::M_WORDS, 	MODE::WORD}
 };
@@ -53,8 +53,7 @@ void conflicting_options(const bopt::variables_map& vm,
    'required_option' is specified too. */
 void option_dependency(const bopt::variables_map& vm,
                        const std::string& for_what,
-                       const std::string& required_option)
-{
+                       const std::string& required_option) {
     if (vm.count(for_what))
         if (vm.count(required_option) == 0 )
             throw std::logic_error(
@@ -100,7 +99,7 @@ void option_validate_values(const bopt::variables_map& vm,
 }
 
 void required_options(const bopt::variables_map& vm,
-                      const optList& required_options){
+                      const optList& required_options) {
     for(const auto& opt:required_options){
         if (!vm.count(opt))
             throw std::logic_error(
@@ -111,7 +110,7 @@ void required_options(const bopt::variables_map& vm,
     }
 }
 
-Options createOption(const bopt::variables_map& vm){
+Options createOption(const bopt::variables_map& vm) {
     Options options;
     if (vm.count("file")){
         auto fname = vm["file"].as<std::string>();
@@ -123,12 +122,16 @@ Options createOption(const bopt::variables_map& vm){
             );
         options.file = fname;
         options.file_size = fs::file_size(fname);
-        std::cout << "File: " << fname << std::endl;
-        std::cout << "File size: " << options.file_size << " bytes" << std::endl;
+        #ifdef DEBUG
+        std::cout << "[DEBUG] "<< "File: " << fname << std::endl;
+        std::cout << "[DEBUG] "<< "File size: " << options.file_size << " bytes" << std::endl;
+        #endif
     }
-    if (vm.count("mode")){
+    if (vm.count("mode")) {
 		auto value = vm["mode"].as<std::string>();
-        std::cout << "Mode: " << value << std::endl;
+        #ifdef DEBUG
+        std::cout << "[DEBUG] " << "Mode: " << value << std::endl;
+        #endif
 		auto it = str2mode.find(value);
         if(it == end(str2mode))
         	throw std::logic_error(
@@ -138,8 +141,10 @@ Options createOption(const bopt::variables_map& vm){
             );
 		options.mode = str2mode.at(value);
     }
-    if (vm.count("view")){
-		std::cout << "Word to count: " << vm["view"].as<std::string>() << std::endl;
+    if (vm.count("view")) {
+        #ifdef DEBUG
+		std::cout << "[DEBUG] " << "Word to count: " << vm["view"].as<std::string>() << std::endl;
+        #endif
         options.word = vm["view"].as<std::string>();
 	}
     return options;
@@ -169,11 +174,10 @@ mode:\n\
     	store(parsed_options, vm);
     	notify(vm);
 
-    	if (vm.count("help")){
+    	if (vm.count("help")) {
         	std::cout << desc << '\n';
         	return std::nullopt;
     	}
-    
         required_options        (vm, {"file", "mode"});
         option_validate_values  (vm, "mode", {detail::M_CHEKSUM, detail::M_WORDS});
         conflicting_options     (vm, "mode", detail::M_CHEKSUM, "view");
@@ -187,5 +191,4 @@ mode:\n\
         std::cout << desc << '\n';
         return std::nullopt;
     }
-
 }

@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 3.9)
-project(Test_task_2GIS VERSION 0.1.0)
+project(Test_task_2GIS VERSION 1.0.0)
 
-#message(${CMAKE_CURRENT_SOURCE_DIR})
-# Включение и выключение thread sanitizer
-set_property(GLOBAL PROPERTY USE_TSAN 0)
 # Включение и выключение adress sanitizer
-set_property(GLOBAL PROPERTY USE_ASAN 0)
+set_property(GLOBAL PROPERTY USE_ASAN 1)
 # Включение и выключение тестов
 set_property(GLOBAL PROPERTY USE_TEST 1)
 get_property(USE_TEST GLOBAL PROPERTY USE_TEST)
+# add_definitions(-DDEBUG_PRINT)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 if (USE_TEST)
   enable_testing()
