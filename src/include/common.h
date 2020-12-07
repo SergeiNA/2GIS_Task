@@ -2,7 +2,6 @@
  * @file common.h
  * @author Сергей Никитин (.)
  * @brief Общие типы данных и функции, используемые в программе
- * @version 1.0
  * @date 2020-12-01
  * 
  * @copyright Copyright (c) 2020

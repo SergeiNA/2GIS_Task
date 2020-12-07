@@ -3,12 +3,13 @@
  * @author Сергей Никитин (.)
  * @brief Содеожит интрефейс класса "Process" через который 
  * будет реализован основной функционал программы
- * @version 1.0
  * @date 2020-12-01
  * 
  * @copyright Copyright (c) 2020
  * 
  */
+
+
 
 #ifndef __IPROCESS_H__
 #define __IPROCESS_H__

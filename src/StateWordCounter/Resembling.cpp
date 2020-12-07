@@ -8,6 +8,18 @@
 
 #include <iostream>
 
+bool Resembling::isFullWord() const {
+    return m_context->m_countKeys == m_context->m_pattern.size();
+}
+
+bool Resembling::isOverFlow() const {
+    return m_context->m_countKeys > (m_context->m_pattern.size() - 1);
+}
+
+bool Resembling::isMiscLetter(char key) const {
+    return m_context->m_pattern.at(m_context->m_countKeys) != key;
+}
+
 void Resembling::onChar(char key) {
     #if defined(DEBUG) && defined(DEBUG_PRINT)
         std::cout << __PRETTY_FUNCTION__ << " [" << key << "] " 
@@ -15,31 +27,26 @@ void Resembling::onChar(char key) {
               <<  std::endl;
     #endif
 
-    if(isEoW(key) 
-        && (m_context->m_countKeys 
-         == m_context->m_pattern.size())){
-            ++m_context->m_countWords;
-            clear();
-            m_context->changeState(std::make_unique<NewWord>());
-            return;
+    if(isEoW(key) && isFullWord()) {
+        ++m_context->m_countWords;
+        clear();
+        m_context->changeState(std::make_unique<NewWord>());
+        return;
     }
 
-    if((m_context->m_countKeys == m_context->m_pattern.size())
-        && isEndPunctuation(key) ){
+    if(isFullWord() && isEndPunctuation(key)) {
         clear();
         m_context->changeState(std::make_unique<PEndMarks>());
         return;
     }
 
-    if((m_context->m_countKeys == m_context->m_pattern.size())
-        && (isEndScope(key) || isQuotes(key)) ){
+    if(isFullWord() && (isEndScope(key) || isQuotes(key))) {
         clear();
         m_context->changeState(std::make_unique<EndScope>());
         return;
     }
 
-    if((m_context->m_countKeys > m_context->m_pattern.size() -1)
-       || (m_context->m_pattern.at(m_context->m_countKeys) != key)){
+    if(isOverFlow() || isMiscLetter(key)) {
         clear();
         m_context->changeState(std::make_unique<Miscellenea>());
         return;

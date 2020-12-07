@@ -1,3 +1,17 @@
+/**
+ * @file BeginScope.h
+ * @author Никитин Сергей ()
+ * @brief Класс состояния разбора открывающихся скобок
+ * или кавычек
+ * Переходы:
+ *  - Resembling
+ *  - NewWord
+ *  - Miscellenea
+ * @date 2020-12-08
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
 #ifndef __BEGINSCOPE_H__
 #define __BEGINSCOPE_H__
 

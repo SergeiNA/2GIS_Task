@@ -1,3 +1,17 @@
+/**
+ * @file NewWord.h
+ * @author Никитин Сергей ()
+ * @brief Класс состояния разбора нового слова
+ *  * Переходы:
+ *  - loopback
+ *  - Miscellanea
+ *  - Resembling
+ *  - BeginScope
+ * @date 2020-12-08
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
 #ifndef __NEWWORD_H__
 #define __NEWWORD_H__
 

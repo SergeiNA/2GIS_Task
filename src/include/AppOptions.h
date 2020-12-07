@@ -2,7 +2,6 @@
  * @file AppOptions.h
  * @author Сергей Никитин (.)
  * @brief Функции для работы с аргументами строки
- * @version 1.0
  * @date 2020-12-01
  * 
  * @copyright Copyright (c) 2020

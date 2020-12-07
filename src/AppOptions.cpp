@@ -33,6 +33,15 @@ inline const static  std::unordered_map<std::string, MODE> str2mode {
 
 // Часть примеров взята здесь https://www.boost.org/doc/libs/1_55_0/libs/program_options/example/real.cpp
 
+/**
+ * @brief Проверяет конфлик opt1 и 
+ * значения данной опции opt1_value и задание opt2 
+ * 
+ * @param vm 
+ * @param opt1 
+ * @param opt1_value 
+ * @param opt2 
+ */
 void conflicting_options(const bopt::variables_map& vm, 
                          const std::string& opt1,
                          const std::string& opt1_value,
@@ -49,8 +58,14 @@ void conflicting_options(const bopt::variables_map& vm,
             );
 }
 
-/* Function used to check that of 'for_what' is specified, then
-   'required_option' is specified too. */
+/**
+ * @brief Проверяет зависимость одной опции for_what 
+ * от другой опции required_option
+ * 
+ * @param vm 
+ * @param for_what 
+ * @param required_option 
+ */
 void option_dependency(const bopt::variables_map& vm,
                        const std::string& for_what,
                        const std::string& required_option) {
@@ -64,6 +79,15 @@ void option_dependency(const bopt::variables_map& vm,
                 );
 }
 
+/**
+ * @brief Проверяет наличие опции required_option
+ * при заданном значении for_what_value опции for_what
+ * 
+ * @param vm 
+ * @param for_what 
+ * @param for_what_value 
+ * @param required_option 
+ */
 void opt_and_val_dependency(const bopt::variables_map& vm,
                        const std::string& for_what,
                        const std::string& for_what_value,
@@ -80,6 +104,7 @@ void opt_and_val_dependency(const bopt::variables_map& vm,
                     + required_option + "'."
                 );
 }
+
 
 void option_validate_values(const bopt::variables_map& vm,
                        const std::string& opt,

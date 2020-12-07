@@ -1,10 +1,26 @@
+/**
+ * @file utils.h
+ * @author Никитин Сергей ()
+ * @brief Вспомогательные функции для перехода между состояниями
+ * @date 2020-12-08
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-inline bool isEoW(char ch) {
+/**
+ * @brief Определяет конец слова
+ * 
+ * @param ch 
+ * @return true 
+ * @return false 
+ */
+[[nodiscard]] inline bool isEoW(char ch) {
     switch (ch)
     {
-    case '\r':
+    case '\r': // для работы с CRLF завершением строк
     case '\n':
     case '\t':
     case ' ':
@@ -14,7 +30,14 @@ inline bool isEoW(char ch) {
     }
 }
 
-inline bool isEndPunctuation(char ch) {
+/**
+ * @brief Определяет пунктуацию после слова
+ * 
+ * @param ch 
+ * @return true 
+ * @return false 
+ */
+[[nodiscard]] inline bool isEndPunctuation(char ch) {
     switch (ch)
     {
     case ':':
@@ -29,7 +52,7 @@ inline bool isEndPunctuation(char ch) {
     }
 }
 
-inline bool isBeginScope(char ch) {
+[[nodiscard]] inline bool isBeginScope(char ch) {
     switch (ch)
     {
     case '(':
@@ -42,7 +65,7 @@ inline bool isBeginScope(char ch) {
     }
 }
 
-inline bool isEndScope(char ch) {
+[[nodiscard]] inline bool isEndScope(char ch) {
     switch (ch)
     {
     case ')':
@@ -55,7 +78,7 @@ inline bool isEndScope(char ch) {
     }
 }
 
-inline bool isQuotes(char ch){
+[[nodiscard]] inline bool isQuotes(char ch){
     switch (ch)
     {
     case '"':

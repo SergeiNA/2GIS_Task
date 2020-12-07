@@ -50,37 +50,38 @@ std::string WorkerWCount::getResult() const {
 void WorkerWCount::processFile() 
 {
 	char ch;
-	std::size_t n_words{0};
-	bool wrong_word{false};
+	std::size_t n_letter{0};
+	bool misc_word{false};
 	while(m_file.get(ch)){
 		switch (ch)
 		{
+		case '\r':
 		case '\n':
 		case '\t':
 		case  ' ':
-			wrong_word = false;
-			if(n_words == m_word.size())
+			misc_word = false;
+			if(n_letter == m_word.size())
 				++m_count;
-			n_words = 0;
+			n_letter = 0;
 			break;
 		default:
-			if(wrong_word){
+			if(misc_word){
 				continue;
 			}
-			if(n_words > m_word.size() - 1){
-				wrong_word = true;
-				n_words = 0;
+			if(n_letter > m_word.size() - 1){
+				misc_word = true;
+				n_letter = 0;
 				continue;
 			}
-			if(ch != m_word.at(n_words)){
-				wrong_word = true;
-				n_words = 0;
+			if(ch != m_word.at(n_letter)){
+				misc_word = true;
+				n_letter = 0;
 				continue;
 			}
-			++n_words;
+			++n_letter;
 			break;
 		}
 	}
-	if(n_words == m_word.size())
+	if(n_letter == m_word.size())
 		++ m_count;
 }

@@ -31,11 +31,23 @@ set (SRC_TEST_SWCOUNT       test_SWCountWorker.cpp
 
 set (TESTS    
                 test_CRCWorker
+                test_WCountWorker
+                test_SWCountWorker
                                 )
 
 add_executable(
                 test_CRCWorker
                 ${SRC_TEST_CRC}
+                                )
+
+add_executable(
+                test_WCountWorker
+                ${SRC_TEST_WCOUNT}
+                                )
+
+add_executable(
+                test_SWCountWorker
+                ${SRC_TEST_SWCOUNT}
                                 )
 
 list(LENGTH TESTS len_TESTS_r)
@@ -61,6 +73,9 @@ set(L_FLAGS "")
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     list(APPEND CMP_OPTIONS "-g")
+    target_compile_definitions( test_CRCWorker      PUBLIC -DDEBUG)
+    target_compile_definitions( test_WCountWorker   PUBLIC -DDEBUG)
+    target_compile_definitions( test_SWCountWorker  PUBLIC -DDEBUG)
     if(USE_ASAN)
         message("[TESTS] LASAN IN USE")
         set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")

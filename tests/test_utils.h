@@ -1,4 +1,8 @@
 
+/**
+ * @brief Вспомогательные функции для проведения тестов
+ * 
+ */
 #if __GNUC__ < 9
 #include <experimental/filesystem>
 #else

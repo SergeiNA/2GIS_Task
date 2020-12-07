@@ -14,6 +14,7 @@ void Context::onEnd() {
 }
 
 void Context::clear() {
+    // Начальное состояние всегда - NewWord
     m_state = std::make_unique<NewWord>();
     m_state->setContext(this);
 }
