@@ -35,12 +35,10 @@ void WorkerCRC::run() {
 	uint32_t temp{0};
     while(m_file.read((char*)&temp, sizeof(temp))){
 		m_CRC^=temp;
-		// std::cout << "[Read]: " << temp << "\n";
 		temp = 0;
 	}
 	if(temp)
 		m_CRC^=temp;
-	// std::cout << "[Read last]: " << temp << "\n";
 }
 
 void WorkerCRC::print(std::ostream& os) const { os << m_CRC << std::endl; }

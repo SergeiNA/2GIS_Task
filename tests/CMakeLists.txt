@@ -11,14 +11,32 @@ get_property(USE_ASAN GLOBAL PROPERTY USE_ASAN)
 # Использование Gtest
 get_property(USE_TEST GLOBAL PROPERTY USE_TEST)
 
-set(TEST_SRC 
-                test_CRCWorker.cpp
-                            )
+
+set (SRC_TEST_CRC           test_CRCWorker.cpp 
+                            ${PROJECT_SOURCE_DIR}/src/WorkerCRC.cpp)
+
+set (SRC_TEST_WCOUNT        test_WCountWorker.cpp 
+                            ${PROJECT_SOURCE_DIR}/src/WorkerWCount.cpp)
+
+set (SRC_TEST_SWCOUNT       test_SWCountWorker.cpp 
+                            ${PROJECT_SOURCE_DIR}/src/WorkerStateWCount.cpp
+                            ${PROJECT_SOURCE_DIR}/src/StateWordCounter/EndScope.cpp
+                            ${PROJECT_SOURCE_DIR}/src/StateWordCounter/BeginScope.cpp
+                            ${PROJECT_SOURCE_DIR}/src/StateWordCounter/PEndMarks.cpp
+                            ${PROJECT_SOURCE_DIR}/src/StateWordCounter/Context.cpp
+                            ${PROJECT_SOURCE_DIR}/src/StateWordCounter/Miscellanea.cpp
+                            ${PROJECT_SOURCE_DIR}/src/StateWordCounter/NewWord.cpp
+                            ${PROJECT_SOURCE_DIR}/src/StateWordCounter/Resembling.cpp
+)
 
 set (TESTS    
                 test_CRCWorker
-                            )
+                                )
 
+add_executable(
+                test_CRCWorker
+                ${SRC_TEST_CRC}
+                                )
 
 list(LENGTH TESTS len_TESTS_r)
 math(EXPR len_TESTS "${len_TESTS_r} - 1")
@@ -28,11 +46,7 @@ foreach(i RANGE ${len_TESTS})
     list(GET TEST_SRC ${i} test_file)
     
 
-    add_executable(
-        ${test_name}
-        ${test_file}
-        ${PROJECT_SOURCE_DIR}/src/
-    )
+    message("BUILD " ${test_file})
     target_include_directories(
         ${test_name}
         PUBLIC
@@ -64,9 +78,6 @@ set_target_properties( ${TESTS}
     COMPILE_OPTIONS "${CMP_OPTIONS}"
     LINK_FLAGS "${L_FLAGS}"
 )
-
-
-
 
 if(USE_TEST)
 

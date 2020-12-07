@@ -11,6 +11,11 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 if (USE_TEST)
   enable_testing()
   add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
+  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/test_data
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+  )
 endif()
+
+message( "out path build " ${CMAKE_BINARY_DIR})
 
 
