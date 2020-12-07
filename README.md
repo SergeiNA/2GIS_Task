@@ -25,3 +25,9 @@
 - следование принципам ООП там, где это уместно
 
 - использование modern C++ best practices
+
+## Требования к сборке 
+ - CMake 3.9
+ - g++ 8.4.0
+ - Boost::program_options
+ - GTest
